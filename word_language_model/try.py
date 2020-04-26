@@ -56,13 +56,9 @@ _SOS_token = 1
 is_transformer_model = hasattr(model, 'model_type') and model.model_type == 'Transformer'
 if not is_transformer_model:
 	hidden = model.init_hidden(1)
+	
+input = torch.randint(ntokens, (1, 1), dtype=torch.long).to(device)
 
-if args.strategy == 'sampling' :	
-	input = torch.randint(ntokens, (1, 1), dtype=torch.long).to(device)
-
-elif args.strategy == 'greedy' :
-	input = torch.ones(1, 1, dtype=torch.long).to(device) * _SOS_token
-	all_tokens = torch.zeros([0], dtype=torch.long).to(device)
 
 with open(args.outf, 'w') as outf:
 	with torch.no_grad():  # no tracking history
